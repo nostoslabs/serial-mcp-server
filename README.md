@@ -94,7 +94,55 @@ Add to Claude Desktop configuration file:
 }
 ```
 
-Other examples for other tools like cursor, claude code etc. please refer to the corresponding tool documentation
+#### Claude Code Configuration
+
+**Option 1: CLI Command (Recommended)**
+
+Use Claude Code's built-in MCP management command:
+
+```bash
+claude mcp add --transport stdio serial -- ./target/release/serial-mcp-server
+```
+
+This will automatically configure the serial MCP server in your Claude Code settings.
+
+**Option 2: Manual Configuration**
+
+If you prefer manual configuration, add to your `~/.claude.json` file (create it if it doesn't exist):
+
+```json
+{
+  "projects": {
+    "/path/to/your/project": {
+      "mcpServers": {
+        "serial": {
+          "type": "stdio",
+          "command": "/path/to/serial-mcp-server/target/release/serial-mcp-server",
+          "args": [],
+          "env": {
+            "RUST_LOG": "info"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Replace `/path/to/your/project` with the absolute path to your project directory, and `/path/to/serial-mcp-server` with the absolute path to this repository.
+
+#### OpenCode Configuration
+
+An `opencode.jsonc` configuration file is included in the project root. Simply run OpenCode in this directory:
+
+```bash
+cd /path/to/serial-mcp-server
+opencode
+```
+
+The configuration automatically enables the serial MCP server with the correct binary path.
+
+For other MCP clients (Cursor, etc.), please refer to their respective documentation.
 
 ## 🎯 Try the STM32 Demo
 
